@@ -103,6 +103,7 @@ calc_point_distance <- function(start, end, duration) {
 #' @importFrom geosphere destPoint
 
 drive_time_points <- function(lat,lng, duration,n=60) {
+  print("Processing, this may take several minutes...")
   miles_to_meters = 1609.344
   angles = c()
   for (i in 0:(n-1)) {angles = append(angles,(360/n)*i)}
@@ -112,7 +113,6 @@ drive_time_points <- function(lat,lng, duration,n=60) {
   circle_points_max = destPoint(c(lng,lat), b=angles, d=max_distance)
   for (i in 1:n) {
     end_pt <- calc_point_distance(c(lng,lat),circle_points_max[i,],duration)
-    print(end_pt)
     circle_points_max[i,] <- end_pt
   }
   return(circle_points_max)
