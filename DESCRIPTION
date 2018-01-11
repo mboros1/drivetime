@@ -1,0 +1,12 @@
+Package: drivetime
+Type: Package
+Title: Drive Time Isochrones for R
+Version: 0.1.1
+Author: Martin Boros
+Maintainer: Martin Boros <mboros04@gmail.com>
+Description: Creates drive time isochrones using Google Distance Matrix API.
+License: GPL
+Encoding: UTF-8
+Imports: RCurl, rjson, geosphere
+Date: 2018-01-01
+RoxygenNote: 6.0.1
