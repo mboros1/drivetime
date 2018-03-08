@@ -113,7 +113,7 @@ drive_time_points <- function(lat,lng, duration,n=60, api_key,debug = TRUE) {
   mid_distance = max_distance*0.5
   circle_points_max = destPoint(c(lng,lat), b=angles, d=max_distance)
   for (i in 1:n) {
-    end_pt <- calc_point_distance(c(lng,lat),circle_points_max[i,],duration, api_key)
+    end_pt <- calc_point_distance(c(lng,lat),circle_points_max[i,],duration, api_key, debug)
     circle_points_max[i,] <- end_pt
   }
   return(circle_points_max)
