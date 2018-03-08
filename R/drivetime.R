@@ -45,7 +45,7 @@ get_distance <- function(from_lat,from_lng,to_lat,to_lng,api_key) {
 #' @importFrom geosphere gcIntermediate
 #' @importFrom stats runif
 
-calc_point_distance <- function(start, end, duration) {
+calc_point_distance <- function(start, end, duration, api_key) {
   miles_to_meters = 1609.344
   n = 200
   min <- 0
@@ -66,7 +66,7 @@ calc_point_distance <- function(start, end, duration) {
       min = min - (20+floor(runif(1,0,20)[1]))
       max = max + (20+floor(runif(1,0,20)[1]))
     }
-    dir <- get_distance(start[2], start[1],gci[mid,2],gci[mid,1])
+    dir <- get_distance(start[2], start[1],gci[mid,2],gci[mid,1], api_key)
     if (dir$status == "ZERO_RESULTS") {
       max <- mid - 1
       mid <- ceiling((max + min)/2)
@@ -102,7 +102,7 @@ calc_point_distance <- function(start, end, duration) {
 #' @export
 #' @importFrom geosphere destPoint
 
-drive_time_points <- function(lat,lng, duration,n=60) {
+drive_time_points <- function(lat,lng, duration,n=60, api_key) {
   print("Processing, this may take several minutes...")
   miles_to_meters = 1609.344
   angles = c()
@@ -112,7 +112,7 @@ drive_time_points <- function(lat,lng, duration,n=60) {
   mid_distance = max_distance*0.5
   circle_points_max = destPoint(c(lng,lat), b=angles, d=max_distance)
   for (i in 1:n) {
-    end_pt <- calc_point_distance(c(lng,lat),circle_points_max[i,],duration)
+    end_pt <- calc_point_distance(c(lng,lat),circle_points_max[i,],duration, api_key)
     circle_points_max[i,] <- end_pt
   }
   return(circle_points_max)
