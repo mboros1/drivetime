@@ -18,8 +18,8 @@
 #' @importFrom RCurl getURL
 #' @export
 
-get_distance <- function(from_lat,from_lng,to_lat,to_lng) {
-  u = paste('https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=',
+get_distance <- function(from_lat,from_lng,to_lat,to_lng,api_key) {
+  u = paste('https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&api_key=',api_key,'&origins=',
             from_lat,',',from_lng,'&destinations=',
             to_lat,',',to_lng,
             sep='')
