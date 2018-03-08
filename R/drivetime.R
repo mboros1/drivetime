@@ -18,13 +18,14 @@
 #' @importFrom RCurl getURL
 #' @export
 
-get_distance <- function(from_lat,from_lng,to_lat,to_lng,api_key) {
+get_distance <- function(from_lat,from_lng,to_lat,to_lng,api_key,debug) {
   u = paste('https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&api_key=',api_key,'&origins=',
             from_lat,',',from_lng,'&destinations=',
             to_lat,',',to_lng,
             sep='')
   r = getURL(u)
   j = fromJSON(r)
+  if (debug) {print(j)}
   return(data.frame(j))
 }
 
@@ -45,7 +46,7 @@ get_distance <- function(from_lat,from_lng,to_lat,to_lng,api_key) {
 #' @importFrom geosphere gcIntermediate
 #' @importFrom stats runif
 
-calc_point_distance <- function(start, end, duration, api_key) {
+calc_point_distance <- function(start, end, duration, api_key,debug) {
   miles_to_meters = 1609.344
   n = 200
   min <- 0
@@ -66,7 +67,7 @@ calc_point_distance <- function(start, end, duration, api_key) {
       min = min - (20+floor(runif(1,0,20)[1]))
       max = max + (20+floor(runif(1,0,20)[1]))
     }
-    dir <- get_distance(start[2], start[1],gci[mid,2],gci[mid,1], api_key)
+    dir <- get_distance(start[2], start[1],gci[mid,2],gci[mid,1], api_key,debug)
     if (dir$status == "ZERO_RESULTS") {
       max <- mid - 1
       mid <- ceiling((max + min)/2)
@@ -102,7 +103,7 @@ calc_point_distance <- function(start, end, duration, api_key) {
 #' @export
 #' @importFrom geosphere destPoint
 
-drive_time_points <- function(lat,lng, duration,n=60, api_key) {
+drive_time_points <- function(lat,lng, duration,n=60, api_key,debug = TRUE) {
   print("Processing, this may take several minutes...")
   miles_to_meters = 1609.344
   angles = c()
